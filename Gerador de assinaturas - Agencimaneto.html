@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gerador de Assinatura</title>
+  <style>
+    body {
+      font-family: 'Aptos', sans-serif;
+      padding: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      width: 300px;
+      padding: 5px;
+    }
+    #assinatura {
+      margin-top: 20px;
+      border-top: 1px solid #ccc;
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- LOGO ACIMA DO TÍTULO -->
+  <a href="https://www.smxlogistics.com" target="_blank">
+    <img src="https://i.imgur.com/Hj6iqeC.png" alt="SMX Logo" style="width:100%; max-width:180px; height:auto; display:block; margin-bottom:10px;">
+  </a>
+
+  <h2>Gerador de Assinatura</h2>
+  <label for="nome">Nome de exibição:</label>
+  <input type="text" id="nome" placeholder="Ex: Nome Sobrenome" />
+
+  <label for="cargo">Cargo em inglês:</label>
+  <input type="text" id="cargo" placeholder="Ex: Assinatura em Inglês" />
+
+  <br><br>
+  <button onclick="gerarAssinatura()">Gerar Assinatura</button>
+  <button id="copiarBtn" onclick="copiarAssinatura()" style="display:none; margin-left:10px;">Copiar Assinatura</button>
+
+  <div id="assinatura" contenteditable="true" style="user-select: all;"></div>
+
+  <script>
+    function capitalizarNome(nomeCompleto) {
+      return nomeCompleto
+        .toLowerCase()
+        .split(' ')
+        .filter(p => p.length > 0)
+        .map(p => p[0].toUpperCase() + p.slice(1))
+        .join(' ');
+    }
+
+    function gerarAssinatura() {
+      const nomeRaw = document.getElementById("nome").value.trim();
+      const nome = capitalizarNome(nomeRaw);
+      const cargo = document.getElementById("cargo").value.trim();
+      const assinaturaDiv = document.getElementById("assinatura");
+
+      if (!nome || !cargo) {
+        alert("Preencha o nome e o cargo.");
+        return;
+      }
+
+      const nomeEmail = nome.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z\s]/g, "").split(" ").join(".");
+
+      const email = `${nomeEmail}@smxlogistics.com`;
+
+      const assinaturaHTML = `
+        <table cellpadding="0" cellspacing="0" border="0" style="font-family:'Aptos', sans-serif; font-size:medium;">
+          <tr>
+            <td valign="top">
+              <a href="https://www.smxlogistics.com" target="_blank">
+                <img src="https://i.imgur.com/XZJWWfR.png" style="width:100%; max-width:180px; height:auto; display:block;">
+              </a>
+            </td>
+            <td style="padding-left:10px; padding-top:6px;" valign="top">
+              <h2 style="color:#000; margin:0; font-size:12pt; font-family:'Aptos', sans-serif;">${nome}</h2>
+              <div style="font-size:10pt; color:#000;">${cargo}</div>
+              <table cellpadding="0" cellspacing="0" border="0" width="275" style="margin:6px 0; border-collapse:collapse;">
+                <tr>
+                  <td height="1" style="background-color:#005BA8; height:1px;"></td>
+                </tr>
+              </table>
+              <table cellpadding="0" cellspacing="0" border="0" width="200" style="font-size:10pt;">
+                <tr>
+                  <td style="vertical-align:middle; padding-right:7px;">
+                    <img src="https://i.imgur.com/jfZcQAt.png" width="13" style="display:block;">
+                  </td>
+                  <td style="vertical-align:middle;">
+                    <a href="tel:+554730835500" style="color:#000; text-decoration:none;">+55 47 3083-5500</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align:middle; padding-right:7px;">
+                    <img src="https://i.imgur.com/yCyPU81.png" width="13" style="display:block;">
+                  </td>
+                  <td style="vertical-align:middle;">
+                    <a href="https://wa.me/554730835500" target="_blank" style="color:#000; text-decoration:none;">+55 47 3083-5500</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align:middle; padding-right:7px; padding-top:0px;">
+                    <img src="https://i.imgur.com/ZjMusJI.png" width="13" style="display:block;">
+                  </td>
+                  <td style="vertical-align:middle; padding-top:0px; white-space: nowrap;">
+                  <a href="mailto:${email}" style="color:#000; text-decoration:none; white-space: nowrap;">${email}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align:middle; padding-right:7px; padding-top:0px;">
+                    <img src="https://i.imgur.com/lINihdq.png" width="13" style="display:block;">
+                  </td>
+                  <td style="vertical-align:middle; padding-top:0px;">
+                    <a href="https://www.smxlogistics.com/" target="_blank" style="color:#000; text-decoration:none;">www.smxlogistics.com</a>
+                  </td>
+                </tr>
+              </table>
+              <table cellpadding="0" cellspacing="0" border="0" style="margin-top:5px;">
+                <tr>
+                  <td>
+                    <a href="https://www.linkedin.com/company/9212430" target="_blank">
+                      <img src="https://i.imgur.com/mcnKu2b.png" width="18" style="display:block;">
+                    </a>
+                  </td>
+                  <td style="padding-left:0px;">
+                    <a href="https://www.instagram.com/smxlogistics/" target="_blank">
+                      <img src="https://i.imgur.com/sSJ7QCX.png" width="18" style="display:block;">
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      `;
+
+      assinaturaDiv.innerHTML = assinaturaHTML;
+      document.getElementById("copiarBtn").style.display = "inline-block";
+    }
+
+    function copiarAssinatura() {
+      const assinaturaDiv = document.getElementById("assinatura");
+
+      const range = document.createRange();
+      range.selectNodeContents(assinaturaDiv);
+
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+
+      try {
+        document.execCommand('copy');
+        alert("Assinatura copiada com sucesso!");
+      } catch (err) {
+        alert("Erro ao copiar");
+      }
+
+      selection.removeAllRanges();
+    }
+  </script>
+</body>
+</html>
