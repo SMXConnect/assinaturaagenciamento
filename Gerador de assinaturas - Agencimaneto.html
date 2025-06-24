@@ -34,11 +34,15 @@
   <input type="text" id="nome" placeholder="Ex: Nome Sobrenome" />
 
   <label for="cargo">Cargo em inglês:</label>
-  <input type="text" id="cargo" placeholder=/>
+  <input type="text" id="cargo" placeholder="Ex: Sales Manager" />
 
   <br><br>
   <button onclick="gerarAssinatura()">Gerar Assinatura</button>
   <button id="copiarBtn" onclick="copiarAssinatura()" style="display:none; margin-left:10px;">Copiar Assinatura</button>
+
+  <div id="avisoCopia" style="display:none; margin-top:10px; color:green; font-weight:bold;">
+    Clique no botão "Copiar Assinatura" para colar no Outlook.
+  </div>
 
   <div id="assinatura" contenteditable="true" style="user-select: all;"></div>
 
@@ -140,6 +144,7 @@
 
       assinaturaDiv.innerHTML = assinaturaHTML;
       document.getElementById("copiarBtn").style.display = "inline-block";
+      document.getElementById("avisoCopia").style.display = "block";
     }
 
     function copiarAssinatura() {
