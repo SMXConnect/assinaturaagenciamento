@@ -40,10 +40,6 @@
   <button onclick="gerarAssinatura()">Gerar Assinatura</button>
   <button id="copiarBtn" onclick="copiarAssinatura()" style="display:none; margin-left:10px;">Copiar Assinatura</button>
 
-  <div id="avisoCopia" style="display:none; margin-top:10px; color:green; font-weight:bold;">
-    Clique no botão "Copiar Assinatura" para colar no Outlook.
-  </div>
-
   <div id="assinatura" contenteditable="true" style="user-select: all;"></div>
 
   <script>
@@ -144,7 +140,7 @@
 
       assinaturaDiv.innerHTML = assinaturaHTML;
       document.getElementById("copiarBtn").style.display = "inline-block";
-      document.getElementById("avisoCopia").style.display = "block";
+      alert('Utilize o botão para copiar assinatura');
     }
 
     function copiarAssinatura() {
